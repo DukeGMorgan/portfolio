@@ -672,11 +672,7 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   font-variation-settings:'wdth' 88; letter-spacing:-.04em; margin-bottom:1.35rem;
 }
 .contact__sub{ font-size:1.06rem; color:var(--muted); line-height:1.72; margin-bottom:2.6rem; }
-.contact__actions{ display:flex; flex-wrap:wrap; gap:.9rem; justify-content:center; margin-bottom:2.2rem; }
-.contact__loc{
-  font-family:var(--font-mono); font-size:.72rem; letter-spacing:.13em;
-  text-transform:uppercase; color:var(--faint); margin:0;
-}
+.contact__actions{ display:flex; flex-wrap:wrap; gap:.9rem; justify-content:center; margin-bottom:0; }
 
 /* ============================================================
    Footer
