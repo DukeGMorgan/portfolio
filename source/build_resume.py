@@ -304,9 +304,9 @@ def build():
          "to the rest."),
         ("Cross-Model Agent Collaboration Layer. ",
          "A shared working room where agents built on different model families work the same "
-         "problem together, proposing, challenging and handing off to one another rather than "
-         "running in isolation. Model choice becomes a per-task decision, and no single vendor "
-         "is a single point of failure."),
+         "problem together. The pairing that matters most is adversarial: code built by one "
+         "model must survive review by a different one before it can be marked complete, so "
+         "defects a single model would have shipped are caught at review, not in production."),
         ("EMR Administration & Data Operations Console. ",
          "Python/Flask multi-site administration tool spanning every site database in the "
          "estate: chart merge, "

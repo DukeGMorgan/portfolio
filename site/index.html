@@ -452,14 +452,21 @@
           rather than each running alone in its own silo. Which model handles a given step
           becomes a per-task decision instead of a platform-wide commitment.
         </p>
+        <p class="project__desc">
+          The pairing that matters most is adversarial: work is built by one model and has to
+          survive review by a different one before it can be marked complete. The builder
+          doesn't get to certify its own work.
+        </p>
         <p class="project__outcome">
-          <strong>Outcome</strong> Work that would stall against one model's blind spots gets
-          unstuck, because an agent with different training and a different vantage point
-          reviews it before it ships. No single vendor is a single point of failure.
+          <strong>Outcome</strong> Better code, caught earlier. Defects a single
+          model would have shipped get found at review time instead of in testing or in
+          production, because blind spots that survive one model rarely survive two. It's the
+          same instinct as re-validating a change against live state rather than trusting that
+          it worked.
         </p>
         <ul class="chips">
-          <li>Cross-model orchestration</li><li>Interactive handoff</li>
-          <li>Shared task context</li><li>Adversarial review</li>
+          <li>Cross-model orchestration</li><li>Adversarial build&ndash;review gate</li>
+          <li>Interactive handoff</li><li>Shared task context</li>
           <li>Vendor independence</li>
         </ul>
       </article>
