@@ -476,9 +476,6 @@ ul,ol{ margin:0; padding:0; list-style:none; }
    Projects
    ============================================================ */
 .projects{ display:grid; grid-template-columns:repeat(2,1fr); gap:1.6rem; }
-/* full-bleed row: keeps an odd project count from orphaning a half-width card,
-   and gives the non-clinical platform equal visual weight to the clinical ones */
-.project--wide{ grid-column:1 / -1; }
 
 .project{
   position:relative; padding:2.15rem 2rem; border-radius:var(--r-lg);

@@ -179,7 +179,7 @@ def build():
          "PHI-bearing work stays on BAA-covered or fully local inference, while schema, code, "
          "and architecture work routes to commercial models. The boundary is enforced at the "
          "routing layer, so compliance never depends on someone remembering the rule under "
-         "deadline. Governance is the reason the program was approved, not an afterthought to it."),
+         "deadline."),
         ("AI strategy as an operating rhythm. ",
          "Run a standing weekly review to identify which workflows should be automated: "
          "clinical work inside the EMR, the administrative work around it, and the routine "
@@ -195,11 +195,9 @@ def build():
          "Shipped AI into the work the organization actually does: schema intelligence over a "
          "600+ table clinical database, legacy EMR migration agents, and multi-site "
          "administrative automation."),
-        ("Systems that review themselves. ",
-         "Built a review pass that feeds completed work back through the platform to surface "
-         "what was done by hand, what recurred, and what should become automation. Findings "
-         "land in a shared, persistent knowledge base every agent reads from and writes to, so "
-         "operational lessons accumulate instead of being rediscovered."),
+        ("Institutional memory that compounds. ",
+         "Built a shared, persistent knowledge base every agent reads from and writes to, so "
+         "operational lessons and root-cause findings accumulate instead of being rediscovered."),
     ]:
         lead_bullet(doc, lead, body, size=9.5)
 
@@ -252,9 +250,6 @@ def build():
         "Built the business case for enterprise AI in a PHI environment and established a "
         "BAA-governed Azure AI Foundry pathway for AI-assisted clinical operations work, with "
         "the data-governance policy settled before any tooling was adopted.",
-        "Lead a standing weekly review to identify workflows that should be automated, spanning "
-        "clinical work inside the EMR, the administrative work around it, and routine daily "
-        "tasks across the team.",
         "Charter and own the clinical systems roadmap: multiple server migrations and platform "
         "conversions, system-wide EMR application updates, and the introduction of new systems "
         "integrated with the EMR to improve clinical efficiency. Each is architected so AI "
@@ -303,9 +298,15 @@ def build():
          "a global authorization filter."),
         ("Multi-Agent Workflow Automation Platform. ",
          "Built the platform the team's operational automation runs on: purpose-built agents "
-         "that absorb repetitive non-clinical work, coordinated to hand off to each other and "
-         "sharing a persistent knowledge base so context carries across sessions. Agents review "
-         "their own sessions to turn recurring manual work into reusable skills."),
+         "that absorb repetitive non-clinical work, sharing a persistent knowledge base so "
+         "context carries across sessions. Each agent reviews its own sessions to turn "
+         "recurring manual work into reusable skills, built for one agent and then rolled out "
+         "to the rest."),
+        ("Cross-Model Agent Collaboration Layer. ",
+         "A shared working room where agents built on different model families work the same "
+         "problem together, proposing, challenging and handing off to one another rather than "
+         "running in isolation. Model choice becomes a per-task decision, and no single vendor "
+         "is a single point of failure."),
         ("EMR Administration & Data Operations Console. ",
          "Python/Flask multi-site administration tool spanning every site database in the "
          "estate: chart merge, "
