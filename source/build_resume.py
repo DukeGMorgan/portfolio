@@ -183,9 +183,8 @@ def build():
         ("AI strategy as an operating rhythm. ",
          "Run a standing weekly review to identify which workflows should be automated: "
          "clinical work inside the EMR, the administrative work around it, and the routine "
-         "daily tasks that consume staff time. The measure is not a flagship system; it is "
-         "whether analysts, schedulers, and clinicians each spend less of the week on work "
-         "that did not need a person."),
+         "daily tasks that consume staff time. The measure is whether analysts, schedulers, "
+         "and clinicians each spend less of the week on work that did not need a person."),
         ("Multi-agent orchestration in production. ",
          "Architected and operate a fleet of specialized AI agents behind a model routing "
          "gateway to Azure AI Foundry, with local on-premise inference reserved for "
@@ -195,9 +194,6 @@ def build():
          "Shipped AI into the work the organization actually does: schema intelligence over a "
          "600+ table clinical database, legacy EMR migration agents, and multi-site "
          "administrative automation."),
-        ("Institutional memory that compounds. ",
-         "Built a shared, persistent knowledge base every agent reads from and writes to, so "
-         "operational lessons and root-cause findings accumulate instead of being rediscovered."),
     ]:
         lead_bullet(doc, lead, body, size=9.5)
 
@@ -333,6 +329,9 @@ def build():
         "pipeline and recovered the records that would otherwise have been lost.",
         "Identified and closed a publicly readable patient document storage bucket, replacing it "
         "with authenticated, row-level-secured access.",
+        "Eliminated the manual-entry burden behind project, task, knowledge base, and change "
+        "advisory board intake by building AI agent skills for each path, replacing "
+        "form-and-upload workflows with conversational capture.",
     ]:
         bullet(doc, b, size=9.5)
 
