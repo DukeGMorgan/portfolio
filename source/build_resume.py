@@ -151,8 +151,8 @@ def build():
          align=WD_ALIGN_PARAGRAPH.CENTER, space_after=2)
 
     p = para(doc,
-             "Nashville, TN Region  ·  931-384-0389  ·  Dukeisrn@me.com  ·  "
-             "linkedin.com/in/duke-morgan-rn-bsha-029b50b",
+             "Nashville, TN  ·  931-384-0389  ·  Dukeisrn@me.com  ·  "
+             "dukemorgan.net  ·  linkedin.com/in/duke-morgan-rn-bsha-029b50b",
              size=9, color=MUTED, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=4)
     bottom_rule(p, size=8)
 
