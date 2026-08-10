@@ -62,6 +62,17 @@ useful to find out that an edit broke that at build time rather than after sendi
 python source/build_resume.py
 ```
 
+## Checking a deploy
+
+```bash
+python check_deploy.py
+```
+
+Verifies the live site: that everything which should load does, that the repo root
+isn't being served, that security headers are applied, and — the part that matters —
+that no real product, platform or employer name has found its way onto the public
+page. Exits non-zero if anything needs attention.
+
 ---
 
 ## A note on content
