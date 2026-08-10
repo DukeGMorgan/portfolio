@@ -50,7 +50,6 @@ MUST_NOT_SERVE = [
     "/README.md",
     "/netlify.toml",
     "/source/build_resume.py",
-    "/source/RESUME.md",
     "/NOTES.private.md",
     "/.gitignore",
 ]

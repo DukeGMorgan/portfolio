@@ -31,8 +31,7 @@ site/                    ← the deployable website; point a host at this folder
   assets/img/
   resume/Duke-Morgan-Resume.pdf
 source/
-  build_resume.py        ← generates the résumé
-  RESUME.md              ← résumé copy in plain text
+  build_resume.py        ← generates the résumé; the single source of truth for its copy
 ```
 
 ## Running it locally
