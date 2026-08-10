@@ -167,9 +167,9 @@ def build():
     para(doc,
          "I also build. I put AI to work implementing and troubleshooting enterprise EMR "
          "platforms and automating the day-to-day work around them, and I write the SQL, "
-         "Python, and automation that runs on it. Very few people in healthcare IT hold an "
-         "active clinical license and a production codebase at the same time. That combination "
-         "is why my roadmaps survive contact with real clinics.")
+         "Python, and automation that runs on it. An active clinical license alongside a "
+         "production codebase is an unusual pair, and it is why my roadmaps survive contact "
+         "with real clinics.")
 
     # ---- AI leadership (front-loaded, deliberately above competencies) --
     section(doc, "AI Strategy & Platform Leadership")
