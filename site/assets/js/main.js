@@ -140,23 +140,11 @@
     });
   }
 
-  /* ---------- email, assembled client-side to slow down scrapers ---------- */
-  var emailLink = document.getElementById('email-link');
-  var emailText = document.getElementById('email-text');
-
-  if (emailLink && emailText) {
-    var user = ['Duke', 'isrn'].join('');
-    var domain = ['me', 'com'].join('.');
-    var address = user + String.fromCharCode(64) + domain;
-    var revealed = false;
-
-    emailLink.addEventListener('click', function (e) {
-      if (revealed) return;              // second click follows the mailto
-      e.preventDefault();
-      revealed = true;
-      emailText.textContent = address;
-      emailLink.setAttribute('href', 'mailto:' + address);
-    });
-  }
-
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && toggle && links && links.classList.contains('is-open')) {
+      toggle.setAttribute('aria-expanded', 'false');
+      links.classList.remove('is-open');
+      toggle.focus();
+    }
+  });
 })();

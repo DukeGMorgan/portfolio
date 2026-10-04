@@ -29,9 +29,9 @@ site/                    ← the deployable website; point a host at this folder
   assets/css/styles.css
   assets/js/main.js
   assets/img/
-  resume/Duke-Morgan-Resume.pdf
+  resume/Duke-Morgan-Resume-2026-09-25.docx
 source/
-  build_resume.py        ← generates the résumé; the single source of truth for its copy
+  build_resume.py        ← historical résumé generator
 hooks/
   pre-commit             ← blocks commits that would leak internal names
   scan_staged.py
@@ -48,32 +48,12 @@ Then open <http://localhost:8899>.
 Opening `site/index.html` directly works too, though the web fonts need a network
 connection.
 
-## The résumé generator
+## Current résumé download
 
-`source/build_resume.py` builds the résumé as a DOCX via `python-docx`.
-
-It exists because ATS résumé parsers are unforgiving: no tables, no text boxes, no
-columns, no images, nothing in headers or footers, standard section headings, and a
-common font — everything linear so a parser reads it top to bottom in the intended order.
-Those constraints are easy to violate by hand in Word and easy to enforce in code.
-
-```bash
-python source/build_resume.py
-```
-
-Exporting the PDF is a **second, separate step** — the script writes only the DOCX, while
-the site serves the PDF. Word is driven through COM to convert it and report the page
-count, which matters because the layout is tuned to fit exactly two pages:
-
-```powershell
-$d = "$PWD\site\resume\Duke-Morgan-Resume.docx"; $p = $d -replace '\.docx$','.pdf'
-$w = New-Object -ComObject Word.Application; $w.Visible = $false
-$doc = $w.Documents.Open($d, $false, $true)
-"PAGES: " + $doc.ComputeStatistics(2)
-$doc.SaveAs([ref]$p, [ref]17); $doc.Close([ref]$false); $w.Quit()
-```
-
-Skip that step and the site keeps serving the previous PDF.
+Both download links serve `site/resume/Duke-Morgan-Resume-2026-09-25.docx`,
+the exact September 25, 2026 document supplied by Duke. This file is deliberately
+tracked as the current published résumé. The historical generator in `source/`
+is not the source of truth for this document and should not overwrite it.
 
 ## Checking a deploy
 

@@ -28,3 +28,6 @@ venv/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Current user-supplied resume is the published download.
+!site/resume/Duke-Morgan-Resume-2026-09-25.docx

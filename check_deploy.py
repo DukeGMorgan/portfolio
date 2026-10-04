@@ -41,7 +41,7 @@ MUST_SERVE = [
     "/assets/js/main.js",
     "/assets/img/og-card.jpg",
     "/assets/img/headshot-formal.jpg",
-    "/resume/Duke-Morgan-Resume.pdf",
+    "/resume/Duke-Morgan-Resume-2026-09-25.docx",
 ]
 
 # Must NOT be reachable. `site/` is the deploy root precisely so the repo root
