@@ -29,7 +29,7 @@ site/                    ← the deployable website; point a host at this folder
   assets/css/styles.css
   assets/js/main.js
   assets/img/
-  resume/Duke-Morgan-Resume-2026-09-25.docx
+  resume/Duke-Morgan-Resume-2026-10-11.docx
 source/
   build_resume.py        ← historical résumé generator
 hooks/
@@ -50,8 +50,8 @@ connection.
 
 ## Current résumé download
 
-Both download links serve `site/resume/Duke-Morgan-Resume-2026-09-25.docx`,
-the exact September 25, 2026 document supplied by Duke. This file is deliberately
+Both download links serve `site/resume/Duke-Morgan-Resume-2026-10-11.docx`,
+the exact October 11, 2026 document supplied by Duke. This file is deliberately
 tracked as the current published résumé. The historical generator in `source/`
 is not the source of truth for this document and should not overwrite it.
 
