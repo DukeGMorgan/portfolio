@@ -6,6 +6,9 @@ and a common font. Everything is linear body text so a parser reads it
 top-to-bottom in the right order.
 """
 
+from pathlib import Path
+import shutil
+import subprocess
 from docx import Document
 from docx.shared import Pt, RGBColor, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -96,10 +99,10 @@ def section(doc, title):
     return p
 
 
-def bullet(doc, text, size=10):
+def bullet(doc, text, size=9.5):
     p = doc.add_paragraph(style="List Bullet")
     p.paragraph_format.space_before = Pt(0)
-    p.paragraph_format.space_after = Pt(1.5)
+    p.paragraph_format.space_after = Pt(2)
     p.paragraph_format.left_indent = Inches(0.18)
     p.paragraph_format.line_spacing = 1.0
     r = p.add_run(text)
@@ -109,10 +112,10 @@ def bullet(doc, text, size=10):
     return p
 
 
-def lead_bullet(doc, lead, text, size=10):
+def lead_bullet(doc, lead, text, size=9.5):
     p = doc.add_paragraph(style="List Bullet")
     p.paragraph_format.space_before = Pt(0)
-    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.space_after = Pt(2.5)
     p.paragraph_format.left_indent = Inches(0.18)
     p.paragraph_format.line_spacing = 1.0
     r1 = p.add_run(lead)
@@ -129,9 +132,9 @@ def lead_bullet(doc, lead, text, size=10):
 
 def role(doc, title, org, meta):
     rich(doc, [(title, True, False, BODY)], size=10.5,
-         space_before=6, space_after=0)
-    rich(doc, [(org, True, False, ACCENT), ("  ·  ", False, False, MUTED),
-               (meta, False, False, MUTED)], size=9.5, space_after=3)
+         space_before=5, space_after=0)
+    rich(doc, [(org, True, False, ACCENT), ("  |  ", False, False, MUTED),
+               (meta, False, False, MUTED)], size=9.5, space_after=2.5)
 
 
 def build():
@@ -145,231 +148,192 @@ def build():
     for r in p.runs:
         r.font.spacing = Pt(1.2)
 
-    para(doc, "Director of Clinical Systems  |  Clinical & Operational AI, "
-              "Enterprise EMR, Automation at Scale",
+    para(doc, "Director of Clinical Systems  |  Healthcare Technology and AI",
          size=10.5, bold=True, color=MUTED,
          align=WD_ALIGN_PARAGRAPH.CENTER, space_after=2)
 
     p = para(doc,
-             "Nashville, TN  ·  931-384-0389  ·  Dukeisrn@me.com  ·  "
-             "dukemorgan.net  ·  linkedin.com/in/duke-morgan-rn-bsha-029b50b",
+             "Nashville, TN  |  931-384-0389  |  Dukeisrn@me.com  |  "
+             "dukemorgan.net  |  linkedin.com/in/duke-morgan-rn-bsha-029b50b",
              size=9, color=MUTED, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=4)
     bottom_rule(p, size=8)
 
     # ---- Summary ------------------------------------------------------
-    section(doc, "Summary")
+    section(doc, "Professional Summary")
     para(doc,
-         "Registered nurse turned healthcare technology leader, with 20+ years spanning "
-         "emergency department floors, enterprise EMR implementation, and applied AI "
-         "architecture. I own clinical systems strategy for a multi-state fertility care "
-         "network: multiple enterprise EMR platforms, hundreds of clinical users, and a "
-         "multimillion-dollar annual vendor portfolio.")
+         "Registered nurse and healthcare technology leader with 20+ years of experience across "
+         "emergency nursing, enterprise EMR implementation, and clinical systems leadership. "
+         "Directs multiple EMR platforms and a multimillion-dollar vendor portfolio for a "
+         "multi-state fertility care network. Combines clinical workflow expertise with hands-on "
+         "software development to improve record access, automate operations, and introduce AI "
+         "with defined controls for patient data.",
+         size=9.5)
+
+    # ---- Core Expertise -----------------------------------------------
+    section(doc, "Core Expertise")
     para(doc,
-         "I also build. I put AI to work implementing and troubleshooting enterprise EMR "
-         "platforms and automating the day-to-day work around them, and I write the SQL, "
-         "Python, and automation that runs on it. An active clinical license alongside a "
-         "production codebase is an unusual pair, and it is why my roadmaps survive contact "
-         "with real clinics.")
-
-    # ---- AI leadership (front-loaded, deliberately above competencies) --
-    section(doc, "AI Strategy & Platform Leadership")
-    for lead, body in [
-        ("Governance first. ",
-         "Authored the two-lane data policy that decides what an AI system is allowed to see: "
-         "PHI-bearing work stays on BAA-covered or fully local inference, while schema, code, "
-         "and architecture work routes to commercial models. The boundary is enforced at the "
-         "routing layer, so compliance never depends on someone remembering the rule under "
-         "deadline."),
-        ("AI strategy as an operating rhythm. ",
-         "Run a standing weekly review to identify which workflows should be automated: "
-         "clinical work inside the EMR, the administrative work around it, and the routine "
-         "daily tasks that consume staff time. The measure is whether analysts, schedulers, "
-         "and clinicians each spend less of the week on work that did not need a person."),
-        ("Multi-agent orchestration in production. ",
-         "Architected and operate a fleet of specialized AI agents behind a model routing "
-         "gateway to Azure AI Foundry, with local on-premise inference reserved for "
-         "PHI-sensitive workloads. Agents are scoped by role and data lane rather than given "
-         "blanket access."),
-        ("AI applied to clinical operations, not demos. ",
-         "Shipped AI into the work the organization actually does: schema intelligence over a "
-         "600+ table clinical database, legacy EMR migration agents, and multi-site "
-         "administrative automation."),
-    ]:
-        lead_bullet(doc, lead, body, size=9.5)
-
-    # ---- Competencies -------------------------------------------------
-    section(doc, "Core Competencies")
-    comps = [
-        ("Leadership & Strategy:  ",
-         "Enterprise EMR Product Ownership · Clinical Systems Roadmap · Multi-Site Deployment · "
-         "Vendor & Contract Negotiation · Executive & C-Suite Stakeholder Management · Budget Ownership"),
-        ("Clinical Informatics:  ",
-         "EMR/EHR Implementation & Optimization · Clinical Workflow Design · Clinical Decision "
-         "Support · CPOE · HL7 / FHIR Interoperability · Legacy EMR Data Migration · Go-Live Leadership"),
-        ("AI, Automation & Engineering:  ",
-         "Multi-Agent AI Orchestration · Azure AI Foundry · Model Routing Gateways · Local / "
-         "On-Premise LLM Deployment for PHI Isolation · Retrieval-Augmented Generation · "
-         "AI-Assisted Workflow Automation · Automation Opportunity Discovery"),
-        ("Compliance & Security:  ",
-         "HIPAA & PHI Governance · BAA-Governed AI Architecture · HITRUST-Aligned Design · "
-         "Entra ID / SSO · Role-Based Access Control · Audit & Access Remediation · "
-         "Joint Commission / CMS Readiness"),
-        ("Technical:  ",
-         "MS SQL Server (600+ table clinical schemas) · Python · PowerShell · .NET · "
-         "React / TypeScript · REST APIs · Git · Azure · Supabase / PostgreSQL · "
-         "Windows Enterprise Administration · Microsoft 365"),
-    ]
-    for lead, body in comps:
-        rich(doc, [(lead, True, False, ACCENT), (body, False, False, BODY)],
-             size=9.5, space_after=3)
+         "Clinical systems strategy  |  EMR/EHR implementation and optimization  |  Product roadmaps  |  "
+         "Vendor negotiation  |  Budget ownership  |  Cross-functional delivery  |  Clinical workflow design  |  "
+         "Data migration  |  AI architecture and governance  |  HIPAA and PHI controls  |  HL7/FHIR interoperability",
+         size=9.5, space_after=4)
 
     # ---- Experience ---------------------------------------------------
     section(doc, "Professional Experience")
 
     role(doc, "Director of Clinical Systems",
-         "Inception Fertility Ventures, LLC", "Nashville, TN  ·  Jun 2017 – Present")
-    para(doc,
-         "Clinical systems strategy and product ownership for the largest fertility care network "
-         "in North America: multi-state operations serving hundreds of clinical users.",
-         size=9.5, italic=True, color=MUTED, space_after=4)
-
+         "Inception Fertility Ventures, LLC", "Nashville, TN  |  Jun 2017 – Present")
     for b in [
-        "Own the full product lifecycle for multiple enterprise EMR platforms: roadmap, release "
-        "governance, vendor alignment, and optimization across the workflows clinicians use to "
-        "deliver patient care.",
-        "Manage a multimillion-dollar annual vendor contract portfolio. Negotiations, SLA "
-        "enforcement, and renewal strategy, consistently expanding capability without "
-        "expanding spend.",
-        "Direct cross-functional delivery across clinical operations, engineering, external "
-        "vendors, and the executive team. Sustained 95% on-time delivery through platform "
-        "upgrades, cloud migrations, and compliance programs.",
-        "Built the business case for enterprise AI in a PHI environment and established a "
-        "BAA-governed Azure AI Foundry pathway for AI-assisted clinical operations work, with "
-        "the data-governance policy settled before any tooling was adopted.",
-        "Charter and own the clinical systems roadmap: multiple server migrations and platform "
-        "conversions, system-wide EMR application updates, and the introduction of new systems "
-        "integrated with the EMR to improve clinical efficiency. Each is architected so AI "
-        "tooling touches schema and metadata only, never patient data.",
-        "Serve as the escalation point for defects the vendor cannot reproduce, including a "
-        "null-dereference that made affected patient charts both un-openable and invisible to "
-        "search.",
+        "Lead clinical systems strategy and the full product lifecycle for multiple enterprise EMR "
+        "platforms supporting hundreds of clinical users across a multi-state fertility care network.",
+        "Manage a multimillion-dollar annual vendor portfolio, including contract negotiations, "
+        "service-level agreements, and renewals; expand platform capabilities while maintaining spend.",
+        "Sustain 95% on-time delivery across platform upgrades, cloud migrations, and compliance "
+        "programs by coordinating clinical operations, engineering, vendors, and executive stakeholders.",
+        "Direct the clinical systems roadmap, including server migrations, platform conversions, "
+        "enterprise application updates, and integration of new systems with the EMR.",
+        "Built the business case for enterprise AI and established a BAA-governed Azure AI Foundry "
+        "pathway. Enforce routing controls that keep PHI workloads on BAA-covered or local inference "
+        "and limit commercial-model work to schema, code, and architecture.",
+        "Run weekly reviews with the team to identify automation opportunities in clinical, "
+        "administrative, and routine operational workflows.",
     ]:
-        bullet(doc, b, size=9.5)
+        bullet(doc, b)
 
-    # ---- Prior roles --------------------------------------------------
     role(doc, "Clinical Implementation Specialist, Perioperative Systems",
          "MEDHOST", "Nov 2016 – Jun 2017")
-    bullet(doc, "Led surgical workflow optimization for multi-hospital EMR implementations, "
-                "including gap analysis and future-state design across OR, pre-op, and PACU "
-                "environments.", size=9.5)
-    bullet(doc, "Configured perioperative modules and delivered clinician training that "
-                "measurably improved go-live adoption.", size=9.5)
+    bullet(doc, "Led workflow analysis and future-state design for multi-hospital perioperative EMR "
+                "implementations across OR, pre-op, and PACU; configured modules and trained "
+                "clinicians for go-live.")
 
     role(doc, "Clinical Application Analyst, Corporate Deployment",
          "Community Health Systems", "Mar 2016 – Oct 2016")
-    bullet(doc, "Developed enterprise EMR workflow templates to corporate clinical and "
-                "regulatory standards, and supported go-lives onsite across emergency, "
-                "surgical, and med/surg departments.", size=9.5)
+    bullet(doc, "Developed enterprise EMR workflow templates aligned with corporate clinical and "
+                "regulatory standards; supported onsite go-lives in emergency, surgical, and "
+                "medical-surgical departments.")
 
-    role(doc, "Support & Implementation Clinical Analyst, RN",
+    role(doc, "Support and Implementation Clinical Analyst, RN",
          "MEDHOST", "Jan 2013 – Mar 2016")
-    bullet(doc, "Conducted clinical workflow analysis across ED, OR, and Med/Surg, configured "
-                "EMR systems to clinical best practice, and partnered with bedside clinicians "
-                "to validate build decisions before go-live.", size=9.5)
+    bullet(doc, "Analyzed clinical workflows, configured EMR systems, and worked with bedside "
+                "clinicians to validate builds before go-live across emergency, perioperative, "
+                "and medical-surgical settings.")
 
-    # ---- Selected build work (own section, not buried in Experience) ---
-    section(doc, "Selected Architecture & Build Work")
+    # ---- Technology & Operational Results -----------------------------
+    section(doc, "Selected Technology and Operational Results")
 
     for lead, body in [
-        ("Clinical Intelligence Orchestration Platform. ",
-         "Architected an enterprise multi-agent AI system routed through a model gateway to "
-         "Azure AI Foundry under an active BAA. A two-lane topology keeps PHI-bearing work on "
-         "BAA-covered or fully local inference while routing schema and code work to commercial "
-         "models, establishing a HIPAA-aligned pathway for AI in clinical operations."),
-        ("Unified Clinical Record Access Platform. ",
-         "Delivered a .NET 8 and React/TypeScript application on Azure consolidating four legacy "
-         "EMR platforms into one read-only clinical viewer behind Entra ID SSO. Migrated 3M+ "
-         "clinical records, 770K+ documents, and 80K+ treatment cycles, eliminated "
-         "shared-credential access across all sites, and closed a cross-clinic PHI exposure with "
-         "a global authorization filter."),
-        ("Multi-Agent Workflow Automation Platform. ",
-         "Built the platform the team's operational automation runs on: purpose-built agents "
-         "that absorb repetitive non-clinical work, sharing a persistent knowledge base so "
-         "context carries across sessions. Each agent reviews its own sessions to turn "
-         "recurring manual work into reusable skills, built for one agent and then rolled out "
-         "to the rest."),
-        ("Cross-Model Agent Collaboration Layer. ",
-         "A shared working room where agents built on different model families work the same "
-         "problem together. The pairing that matters most is adversarial: code built by one "
-         "model must survive review by a different one before it can be marked complete, so "
-         "defects a single model would have shipped are caught at review, not in production."),
-        ("EMR Administration & Data Operations Console. ",
-         "Python/Flask multi-site administration tool spanning every site database in the "
-         "estate: chart merge, "
-         "bulk provisioning, drug library management, and permission governance, with a "
-         "plan-then-apply safety model that re-validates against live state and refuses to run "
-         "on drift."),
-        ("Clinical Schema Intelligence Assistant. ",
-         "AI-assisted query assistant over a 600+ table clinical SQL Server schema, scoped to "
-         "schema and metadata only. Cut root-cause analysis time and shortened analyst onboarding."),
+        ("Unified clinical record access:  ",
+         "Delivered a .NET 8 and React/TypeScript application on Azure that consolidated four legacy "
+         "EMR platforms into one read-only clinical viewer. Migrated 3M+ clinical records, 770K+ "
+         "documents, and 80K+ treatment cycles. Replaced shared credentials with Entra ID single "
+         "sign-on and implemented a global authorization filter to control access across clinics."),
+        ("AI orchestration and workflow automation:  ",
+         "Architected and operate specialized AI agents through a model gateway to Azure AI Foundry, "
+         "with access scoped by role and data classification. Built a shared knowledge base and "
+         "reusable automation skills for project, task, knowledge base, and change advisory board "
+         "intake. Added cross-model code review before work is marked complete."),
+        ("EMR administration and clinical data analysis:  ",
+         "Built a Python/Flask console for chart merges, bulk provisioning, drug library management, "
+         "and permissions across site databases. Added live-state validation to stop changes when "
+         "conditions differ from the approved plan. Developed a query assistant over a 600+ table SQL "
+         "Server schema, restricted to schema and metadata, to shorten root-cause analysis and analyst "
+         "onboarding."),
+        ("Data integrity and access remediation:  ",
+         "Corrected a non-unique record key in a laboratory results migration and recovered records "
+         "that would otherwise have been lost. Audited permissions across two production sites, "
+         "removed excess access, and identified a vendor audit gap for partial permission changes. "
+         "Secured patient document storage with authenticated access and row-level controls."),
     ]:
-        lead_bullet(doc, lead, body, size=9.5)
+        lead_bullet(doc, lead, body)
 
-    # ---- Selected findings (own section) ------------------------------
-    section(doc, "Selected Findings & Remediations")
+    # ---- Earlier Clinical Practice ------------------------------------
+    section(doc, "Earlier Clinical Experience")
 
-    for b in [
-        "Audited application permissions across two production sites and executed a governed "
-        "revocation of an over-provisioned module, verified by a rollback proving zero "
-        "unintended change. Discovered in the process that the vendor's procedure writes no "
-        "audit record for partial permission changes. The gap affects every such change made "
-        "through the vendor UI, not just automated ones.",
-        "Traced a data-integrity fault in a laboratory results migration to a non-unique record "
-        "key silently collapsing duplicate groups that held differing payloads. Re-keyed the "
-        "pipeline and recovered the records that would otherwise have been lost.",
-        "Identified and closed a publicly readable patient document storage bucket, replacing it "
-        "with authenticated, row-level-secured access.",
-        "Eliminated the manual-entry burden behind project, task, knowledge base, and change "
-        "advisory board intake by building AI agent skills for each path, replacing "
-        "form-and-upload workflows with conversational capture.",
-    ]:
-        bullet(doc, b, size=9.5)
+    role(doc, "Emergency Department Charge Nurse",
+         "Williamson Medical Center", "Apr 2010 – Jan 2013")
+    bullet(doc, "Led emergency nursing operations and served as a computerized provider order entry "
+                "(CPOE) superuser, improving documentation workflows and communicating operational "
+                "issues to IT.")
 
-    # ---- Earlier practice ---------------------------------------------
-    section(doc, "Earlier Clinical Practice")
+    role(doc, "Emergency Department Charge Nurse and Staff Nurse",
+         "Southern Hills Medical Center (HCA)", "Jul 2005 – Jan 2010")
+    bullet(doc, "Managed emergency nursing operations and supported EMR template optimization for "
+                "Joint Commission and regulatory compliance.")
 
-    rich(doc, [("Emergency Department Charge Nurse", True, False, BODY),
-               ("  ·  Williamson Medical Center  ·  Apr 2010 – Jan 2013",
-                False, False, MUTED)], size=9.5, space_before=3, space_after=1)
-    para(doc, "Led ED nursing operations as CPOE superuser, streamlining documentation "
-              "workflows and routing operational findings back to IT.",
-         size=9.5, space_after=3)
-
-    rich(doc, [("Emergency Department Charge Nurse & Staff Nurse", True, False, BODY),
-               ("  ·  Southern Hills Medical Center (HCA)  ·  Jul 2005 – Jan 2010",
-                False, False, MUTED)], size=9.5, space_before=3, space_after=1)
-    para(doc, "Managed emergency nursing operations and supported EMR template optimization "
-              "for Joint Commission and regulatory compliance.", size=9.5, space_after=3)
+    # ---- Technical Skills ---------------------------------------------
+    section(doc, "Technical Skills")
+    para(doc,
+         "SQL Server  |  Python  |  PowerShell  |  .NET  |  React/TypeScript  |  REST APIs  |  Git  |  "
+         "Azure  |  Azure AI Foundry  |  Multi-agent orchestration  |  Retrieval-augmented generation  |  "
+         "Local LLM deployment  |  Entra ID and SSO  |  Role-based access control  |  Supabase/PostgreSQL  |  "
+         "Microsoft 365",
+         size=9.5, space_after=4)
 
     # ---- Education ----------------------------------------------------
     section(doc, "Education")
-    rich(doc, [("Bachelor of Science, Healthcare Administration (BSHA)", True, False, BODY),
-               ("  ·  Western Governors University, 2025", False, False, MUTED)], size=9.5)
-    rich(doc, [("Associate of Applied Science, Nursing (ASN)", True, False, BODY),
-               ("  ·  Excelsior College, 2007", False, False, MUTED)], size=9.5)
+    rich(doc, [("Bachelor of Science, Healthcare Administration", True, False, BODY),
+               ("  |  Western Governors University  |  2025", False, False, MUTED)], size=9.5)
+    rich(doc, [("Associate of Applied Science, Nursing", True, False, BODY),
+               ("  |  Excelsior College  |  2007", False, False, MUTED)], size=9.5, space_after=4)
 
-    # ---- Licensure ----------------------------------------------------
-    section(doc, "Licensure & Certifications")
-    bullet(doc, "Registered Nurse (RN), Tennessee / Multistate Compact License, Active", size=9.5)
-    bullet(doc, "Microsoft SQL Server, Specialization Certificate, Microsoft via Coursera, 2026",
-           size=9.5)
-    bullet(doc, "AI Agent Fundamentals with Azure AI Foundry, Course Certificate, "
-                "Microsoft via Coursera, 2026", size=9.5)
+    # ---- Licensure and Certificates -----------------------------------
+    section(doc, "Licensure and Certificates")
+    bullet(doc, "Registered Nurse  |  Tennessee / Multistate Compact License  |  Active")
+    bullet(doc, "OpenAI Academy  |  Agents and Workflows & AI Foundations Credential  |  2026")
+    bullet(doc, "Claude Academy (Anthropic)  |  AI Fluency for Builders & Foundations  |  2026")
+    bullet(doc, "Google Cloud  |  Generative AI Leader Specialization Certificate  |  2026")
+    bullet(doc, "Microsoft  |  AI Agent Fundamentals with Azure AI Foundry Course Certificate  |  2026")
+    bullet(doc, "Microsoft  |  SQL Server Specialization Certificate  |  2026")
 
-    out = (r"C:\Users\DukeMorgan\.dmorgan_Portifolio_creation\site\resume"
-           r"\Duke-Morgan-Resume.docx")
-    doc.save(out)
-    print("WROTE", out)
+    # Destination paths
+    repo_root = Path(__file__).resolve().parent.parent
+    resume_dir = repo_root / "site" / "resume"
+    docx_out = resume_dir / "Duke-Morgan-Resume.docx"
+    dated_docx_out = resume_dir / "Duke-Morgan-Resume-2026-11-01.docx"
+    pdf_out = resume_dir / "Duke-Morgan-Resume.pdf"
+
+    doc.save(docx_out)
+    doc.save(dated_docx_out)
+    print("Wrote DOCX to:", docx_out)
+    print("Wrote DOCX to:", dated_docx_out)
+
+    # Export to PDF via Word for Mac sandbox
+    export_to_pdf(docx_out, pdf_out)
+
+
+def export_to_pdf(docx_path: Path, pdf_path: Path):
+    """Export DOCX to PDF using Microsoft Word for Mac without sandbox permission prompts."""
+    word_container_docs = Path.home() / "Library" / "Containers" / "com.microsoft.Word" / "Data" / "Documents"
+    if not word_container_docs.exists():
+        word_container_docs.mkdir(parents=True, exist_ok=True)
+
+    temp_docx = word_container_docs / "temp_resume_export.docx"
+    temp_pdf = word_container_docs / "temp_resume_export.pdf"
+
+    try:
+        shutil.copy2(docx_path, temp_docx)
+        ascript = f'''
+        tell application "Microsoft Word"
+            open "{temp_docx}"
+            set activeDoc to active document
+            save as activeDoc file name "{temp_pdf}" file format format PDF
+            close activeDoc saving no
+        end tell
+        '''
+        res = subprocess.run(["osascript", "-e", ascript], capture_output=True, text=True)
+        if res.returncode != 0:
+            print("AppleScript error:", res.stderr)
+            return
+
+        if temp_pdf.exists():
+            shutil.copy2(temp_pdf, pdf_path)
+            print("Wrote PDF to:", pdf_path)
+        else:
+            print("PDF was not created in sandbox")
+    finally:
+        if temp_docx.exists():
+            temp_docx.unlink()
+        if temp_pdf.exists():
+            temp_pdf.unlink()
 
 
 if __name__ == "__main__":
