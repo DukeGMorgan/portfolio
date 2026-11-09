@@ -148,7 +148,7 @@ def build():
     for r in p.runs:
         r.font.spacing = Pt(1.2)
 
-    para(doc, "Director of Clinical Systems  |  Healthcare Technology and AI",
+    para(doc, "Director of Clinical Systems  |  Clinical AI Architect & Enterprise AI Enablement",
          size=10.5, bold=True, color=MUTED,
          align=WD_ALIGN_PARAGRAPH.CENTER, space_after=2)
 
@@ -165,16 +165,17 @@ def build():
          "emergency nursing, enterprise EMR implementation, and clinical systems leadership. "
          "Directs multiple EMR platforms and a multimillion-dollar vendor portfolio for a "
          "multi-state fertility care network. Combines clinical workflow expertise with hands-on "
-         "software development to improve record access, automate operations, and introduce AI "
-         "with defined controls for patient data.",
+         "AI architecture and software engineering to deliver governed multi-agent systems, "
+         "retrieval-augmented generation (RAG), and enterprise AI enablement with strict PHI controls.",
          size=9.5)
 
     # ---- Core Expertise -----------------------------------------------
     section(doc, "Core Expertise")
     para(doc,
-         "Clinical systems strategy  |  EMR/EHR implementation and optimization  |  Product roadmaps  |  "
-         "Vendor negotiation  |  Budget ownership  |  Cross-functional delivery  |  Clinical workflow design  |  "
-         "Data migration  |  AI architecture and governance  |  HIPAA and PHI controls  |  HL7/FHIR interoperability",
+         "Clinical systems strategy  |  AI architecture and governance  |  Enterprise AI enablement  |  "
+         "EMR/EHR implementation and optimization  |  Product roadmaps  |  Vendor negotiation  |  "
+         "Budget ownership  |  Cross-functional delivery  |  Clinical workflow design  |  "
+         "Data migration  |  HIPAA and BAA PHI controls  |  HL7/FHIR interoperability",
          size=9.5, space_after=4)
 
     # ---- Experience ---------------------------------------------------
@@ -278,8 +279,8 @@ def build():
     # ---- Licensure and Certificates -----------------------------------
     section(doc, "Licensure and Certificates")
     bullet(doc, "Registered Nurse  |  Tennessee / Multistate Compact License  |  Active")
-    bullet(doc, "OpenAI Academy  |  Agents and Workflows & AI Foundations Credential  |  2026")
-    bullet(doc, "Claude Academy (Anthropic)  |  AI Fluency for Builders & Foundations  |  2026")
+    bullet(doc, "OpenAI Academy  |  AI Leadership, Optimize AI Performance, Agents & Workflows, Scope AI Solutions, AI Foundations  |  2026")
+    bullet(doc, "Claude Academy (Anthropic)  |  AI Fluency for Builders, Framework & Foundations, Small Business, Nonprofits, Creative Work  |  2026")
     bullet(doc, "Google Cloud  |  Generative AI Leader Specialization Certificate  |  2026")
     bullet(doc, "Microsoft  |  AI Agent Fundamentals with Azure AI Foundry Course Certificate  |  2026")
     bullet(doc, "Microsoft  |  SQL Server Specialization Certificate  |  2026")
@@ -288,7 +289,7 @@ def build():
     repo_root = Path(__file__).resolve().parent.parent
     resume_dir = repo_root / "site" / "resume"
     docx_out = resume_dir / "Duke-Morgan-Resume.docx"
-    dated_docx_out = resume_dir / "Duke-Morgan-Resume-2026-11-01.docx"
+    dated_docx_out = resume_dir / "Duke-Morgan-Resume-2026-11-08.docx"
     pdf_out = resume_dir / "Duke-Morgan-Resume.pdf"
 
     doc.save(docx_out)
@@ -301,15 +302,14 @@ def build():
 
 
 def export_to_pdf(docx_path: Path, pdf_path: Path):
-    """Export DOCX to PDF using Microsoft Word for Mac without sandbox permission prompts."""
+    """Export DOCX to PDF using Microsoft Word for Mac or headless Chrome fallback."""
     word_container_docs = Path.home() / "Library" / "Containers" / "com.microsoft.Word" / "Data" / "Documents"
-    if not word_container_docs.exists():
-        word_container_docs.mkdir(parents=True, exist_ok=True)
-
     temp_docx = word_container_docs / "temp_resume_export.docx"
     temp_pdf = word_container_docs / "temp_resume_export.pdf"
 
     try:
+        if not word_container_docs.exists():
+            word_container_docs.mkdir(parents=True, exist_ok=True)
         shutil.copy2(docx_path, temp_docx)
         ascript = f'''
         tell application "Microsoft Word"
@@ -320,20 +320,108 @@ def export_to_pdf(docx_path: Path, pdf_path: Path):
         end tell
         '''
         res = subprocess.run(["osascript", "-e", ascript], capture_output=True, text=True)
-        if res.returncode != 0:
-            print("AppleScript error:", res.stderr)
-            return
-
-        if temp_pdf.exists():
+        if res.returncode == 0 and temp_pdf.exists():
             shutil.copy2(temp_pdf, pdf_path)
             print("Wrote PDF to:", pdf_path)
-        else:
-            print("PDF was not created in sandbox")
+            return
+    except PermissionError:
+        pass
     finally:
-        if temp_docx.exists():
-            temp_docx.unlink()
-        if temp_pdf.exists():
-            temp_pdf.unlink()
+        for p in (temp_docx, temp_pdf):
+            try:
+                if p.exists():
+                    p.unlink()
+            except OSError:
+                pass
+
+    export_to_pdf_via_chrome(docx_path, pdf_path)
+
+
+def export_to_pdf_via_chrome(docx_path: Path, pdf_path: Path):
+    """Render the DOCX paragraphs to print-exact HTML and export to PDF via headless Chrome."""
+    import html as html_mod
+    import tempfile
+
+    chrome_bin = Path("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+    if not chrome_bin.exists():
+        print("Google Chrome not found for PDF fallback")
+        return
+
+    doc = Document(docx_path)
+    blocks = []
+    in_list = False
+
+    for p in doc.paragraphs:
+        style_name = p.style.name if p.style else ""
+        is_bullet = "Bullet" in style_name
+        if is_bullet and not in_list:
+            blocks.append("<ul>")
+            in_list = True
+        elif not is_bullet and in_list:
+            blocks.append("</ul>")
+            in_list = False
+
+        has_bdr = p._p.pPr is not None and p._p.pPr.find(qn("w:pBdr")) is not None
+        align = "center" if p.alignment == WD_ALIGN_PARAGRAPH.CENTER else "left"
+
+        runs_html = []
+        max_pt = 9.5
+        for r in p.runs:
+            txt = html_mod.escape(r.text)
+            if not txt:
+                continue
+            pt = r.font.size.pt if r.font.size else 9.5
+            if pt > max_pt:
+                max_pt = pt
+            color = f"#{r.font.color.rgb}" if (r.font.color and r.font.color.rgb) else "#1A1A1A"
+            styles = [f"font-size:{pt}pt", f"color:{color}"]
+            if r.bold:
+                styles.append("font-weight:700")
+            if r.italic:
+                styles.append("font-style:italic")
+            if r.font.all_caps:
+                styles.append("text-transform:uppercase;letter-spacing:0.8pt")
+            runs_html.append(f'<span style="{";".join(styles)}">{txt}</span>')
+
+        inner = "".join(runs_html)
+        if is_bullet:
+            blocks.append(f"<li>{inner}</li>")
+        else:
+            cls = "sec" if (has_bdr and align == "left") else ("hdr-rule" if has_bdr else "para")
+            sb = p.paragraph_format.space_before.pt if p.paragraph_format.space_before else 0
+            sa = p.paragraph_format.space_after.pt if p.paragraph_format.space_after else 3
+            blocks.append(
+                f'<p class="{cls}" style="text-align:{align};margin-top:{sb}pt;margin-bottom:{sa}pt">{inner}</p>'
+            )
+
+    if in_list:
+        blocks.append("</ul>")
+
+    html_doc = f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+@page {{ size: letter; margin: 0.42in 0.48in; }}
+body {{ font-family: Calibri, 'Carlito', 'Helvetica Neue', Arial, sans-serif; color: #1A1A1A; margin: 0; line-height: 1.15; -webkit-print-color-adjust: exact; }}
+p {{ margin: 0; }}
+.hdr-rule {{ border-bottom: 1.2pt solid #0F3D56; padding-bottom: 3pt; margin-bottom: 5pt !important; }}
+.sec {{ border-bottom: 0.8pt solid #0F3D56; padding-bottom: 1.5pt; margin-top: 6.5pt !important; margin-bottom: 3.5pt !important; }}
+ul {{ margin: 0 0 2.5pt 0; padding-left: 0.18in; }}
+li {{ margin-bottom: 1.8pt; font-size: 9.5pt; color: #1A1A1A; break-inside: avoid; }}
+</style></head><body>{"".join(blocks)}</body></html>"""
+
+    with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False, encoding="utf-8") as f:
+        f.write(html_doc)
+        tmp_html = Path(f.name)
+
+    try:
+        subprocess.run([
+            str(chrome_bin), "--headless", "--disable-gpu",
+            "--no-pdf-header-footer", f"--print-to-pdf={pdf_path}",
+            f"file://{tmp_html}"
+        ], capture_output=True, text=True, check=True)
+        print("Wrote PDF (via Chrome) to:", pdf_path)
+    finally:
+        if tmp_html.exists():
+            tmp_html.unlink()
 
 
 if __name__ == "__main__":
