@@ -48,7 +48,7 @@
       <span class="nav__mark" aria-hidden="true">DM</span>
       <span class="nav__name">Duke Morgan<span class="nav__cred">RN, BSHA</span></span>
     </a>
-    <nav class="nav__links" id="primary-nav" aria-label="Primary"><a href="#clinical">Clinical AI</a><a href="#architecture">Architecture</a><a href="#operations">AI Enablement</a><a href="#systems">Engineering</a><a href="#about">About Duke</a><a href="#credentials">Credentials</a><a href="#contact" class="nav__cta">Contact</a></nav>
+    <nav class="nav__links" id="primary-nav" aria-label="Primary"><a href="#clinical">Clinical AI</a><a href="#architecture">Architecture</a><a href="#operations">AI Enablement</a><a href="#systems">Solutions</a><a href="#about">About Duke</a><a href="#credentials">Credentials</a><a href="#contact" class="nav__cta">Contact</a></nav>
     <button class="nav__toggle" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -421,7 +421,7 @@
     <div class="case-panel" data-case-panel="c4" role="tabpanel">
       <article class="case-study">
         <div class="case-heading"><span class="case-number">04</span><div><p class="eyebrow">Agent systems / Persistent institutional knowledge</p><h3>Stop rebuilding context every time work resumes.</h3><p class="case-lead">Arm autonomous sessions with persistent memory, operational findings, and synthesized skills from previous runs.</p></div></div>
-        <div class="case-body"><div class="case-problem"><h4>The problem</h4><p>Agents operating in isolated sessions repeatedly lose prior findings, procedural decisions, and runtime context. High-value operational discoveries remain trapped in ephemeral chat histories.</p></div><div class="case-solution"><h4>What I built &amp; enabled</h4><p>I built a shared, persistent knowledge base paired with an automated session review pipeline. The pipeline analyzes completed workflows, extracts repeatable operational patterns, and synthesizes them into modular skills available to the entire agent fleet.</p><div class="case-change"><h4>What changed</h4><p>Decisions and architectural discoveries compound across sessions. As agents resolve novel operational challenges, the platform automatically codifies those patterns into reusable enterprise skills.</p></div></div></div>
+        <div class="case-body"><div class="case-problem"><h4>The problem</h4><p>Agents operating in isolated sessions repeatedly lose prior findings, procedural decisions, and runtime context. High-value operational discoveries remain trapped in ephemeral chat histories.</p></div><div class="case-solution"><h4>What I built &amp; enabled</h4><p>I built a shared, persistent knowledge base (750+ indexed architectural files, operational runbooks, and a centralized tool registry) paired with an automated session review pipeline. The pipeline analyzes completed workflows, extracts repeatable operational patterns, and synthesizes them into modular skills available to the entire agent fleet.</p><div class="case-change"><h4>What changed</h4><p>Decisions and architectural discoveries compound across sessions. As agents resolve novel operational challenges, the platform automatically codifies those patterns into reusable enterprise skills.</p></div></div></div>
         <ol class="case-flow" aria-label="How the workflow works"><li><span>01</span>Complete a task</li><li><span>02</span>Review the session</li><li><span>03</span>Preserve findings &amp; reusable steps</li><li><span>04</span>Use them in the next task</li></ol><ul class="chips" aria-label="Skills demonstrated"><li>Persistent Context</li><li>Multi-Agent Orchestration</li><li>Dynamic Skill Synthesis</li><li>Knowledge Retrieval</li></ul>
       </article>
     </div>
@@ -487,14 +487,200 @@
 
 </div></section>
 
-<section class="section " id="systems"><div class="wrap"><div class="section__head"><p class="eyebrow">03 / Supporting engineering</p><h2 class="section__title">Problems solved in clinical systems.</h2><p class="section__sub">My experience shows up in the problems I investigate and the tools I build. These examples from my clinical systems work connect the underlying fault to a practical solution.</p></div><div class="cards cards--3">
-<article class="card"><p class="eyebrow">Clinical record access</p><h3>Bring four legacy EMRs into one view.</h3><p><strong>Problem:</strong> Records were spread across four legacy platforms, with shared credentials for access.</p><p><strong>Solution:</strong> I built a read-only clinical viewer and migration tooling with .NET, React, and Azure. The migration covered 3M+ clinical records, 770K+ documents, and 80K+ treatment cycles. Entra ID single sign-on replaced shared credentials, with authorization controls across clinics.</p></article>
-<article class="card"><p class="eyebrow">Safer operational changes</p><h3>Check the system before applying the plan.</h3><p><strong>Problem:</strong> The live system could change between approval and execution.</p><p><strong>Solution:</strong> My Python/Flask administration console handles chart merges, provisioning, drug libraries, and permissions. It re-validates live state before execution and stops when conditions differ from the approved plan. It caught a real divergence on its first run.</p></article>
-<article class="card"><p class="eyebrow">Data integrity</p><h3>Find the fault behind a successful load.</h3><p><strong>Problem:</strong> A laboratory migration reported success while a non-unique key collapsed distinct records.</p><p><strong>Solution:</strong> I traced the fault, changed the keying approach, and recovered records that would otherwise have been lost.</p></article>
-<article class="card"><p class="eyebrow">EMR troubleshooting</p><h3>Find charts the system made invisible.</h3><p><strong>Problem:</strong> A vendor function made affected charts impossible to open and invisible in search, making missing records harder to recognize.</p><p><strong>Solution:</strong> I traced the issue to a null-dereference and produced a reversible fix.</p></article>
-<article class="card"><p class="eyebrow">Permission governance</p><h3>Verify the audit trail behind access changes.</h3><p><strong>Problem:</strong> During access remediation across two production sites, partial permission changes were missing from the vendor’s audit trail.</p><p><strong>Solution:</strong> I identified the stored-procedure gap, removed excess access, and validated the governed change.</p></article>
-<article class="card"><p class="eyebrow">Patient document access</p><h3>Put access controls around sensitive documents.</h3><p><strong>Problem:</strong> A patient document store allowed public reads, and a separate authorization gap permitted access across clinics.</p><p><strong>Solution:</strong> I implemented authenticated document delivery, row-level controls, and a global authorization filter.</p></article>
-</div></div></section>
+<section class="section " id="systems"><div class="wrap"><div class="section__head"><p class="eyebrow">03 / Workplace problems &amp; shipped solutions</p><h2 class="section__title">Operational bottlenecks turned into production systems.</h2><p class="section__sub">Real problems encountered across multi-clinic healthcare operations and enterprise AI delivery—paired with the technical solution I built and the measurable outcome. Filter by focus area below.</p></div>
+
+<div class="solutions-bar reveal" aria-label="Filter workplace solutions by focus area">
+  <div class="solutions-filters" role="tablist" aria-label="Solution categories">
+    <button type="button" class="solution-filter is-active" data-solution-filter="featured" role="tab" aria-selected="true">Featured (6)</button>
+    <button type="button" class="solution-filter" data-solution-filter="all" role="tab" aria-selected="false">All Solutions (12)</button>
+    <button type="button" class="solution-filter" data-solution-filter="clinical" role="tab" aria-selected="false">Clinical Systems &amp; EMR (5)</button>
+    <button type="button" class="solution-filter" data-solution-filter="ai" role="tab" aria-selected="false">Enterprise AI &amp; Governance (4)</button>
+    <button type="button" class="solution-filter" data-solution-filter="ops" role="tab" aria-selected="false">Ops &amp; Enablement (3)</button>
+  </div>
+  <span class="solutions-meta" id="solutions-meta" aria-live="polite">Showing 6 featured highlights</span>
+</div>
+
+<div class="cards cards--3 solutions-grid" id="solutions-grid">
+
+  <article class="card solution-card" data-track="clinical" data-featured="true">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">Clinical Data Migration</p>
+      <span class="solution-card__metric">9 hrs &rarr; &lt;6 min</span>
+    </div>
+    <h3>Onboard an active primary EMR into a unified multi-clinic viewer.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Our multi-clinic viewer (3M+ records across 4 legacy EMRs) had never ingested data directly from our active primary EMR—over 1M rows with undocumented schemas and mis-encoded binary documents.</p>
+      <p><strong>Solution:</strong> Built a batched bulk-loader pipeline, a standalone binary document encoding repair utility, and a reusable vendor migration profile.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Migrated 11,600+ patients and 1.3M+ records in under 6 minutes (down from ~9 hours), creating a repeatable onboarding blueprint for future clinics.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>Bulk ETL</li><li>SQL Server</li><li>Binary Repair</li><li>1.3M+ Records</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="clinical" data-featured="true">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">Permission Governance</p>
+      <span class="solution-card__metric">14 Sites &middot; 177 Changes</span>
+    </div>
+    <h3>Revoke sensitive clinical access safely across a multi-clinic network.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> The EMR’s additive security model lacked "deny" semantics. Manually revoking Billing Write access across 14+ clinics risked raw SQL errors and silent vendor audit-trail gaps.</p>
+      <p><strong>Solution:</strong> Built a dry-run-first CLI wrapping vendor stored procedures to preview full before/after states, verify audit logging, and capture row-level rollback snapshots.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Completed 177 verified revocations across 14 production centers with zero data loss, exposed a vendor audit-logging defect, and caught live unauthorized re-grants within minutes.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>Access Governance</li><li>Dry-Run CLI</li><li>Audit Forensics</li><li>Rollback Safety</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="clinical" data-featured="true">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">Core Clinical Engineering</p>
+      <span class="solution-card__metric">196 Tests &middot; 0 Regressions</span>
+    </div>
+    <h3>Modernize a 39-category legacy chart-merge engine in native TypeScript.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Complex patient chart merges—covering 39 data categories, gap repairs, and cascade reversions—lived in a brittle legacy service outside our modern enterprise operations stack.</p>
+      <p><strong>Solution:</strong> Executed a 10-phase port into TypeScript, engineering every merge category as a builder/reverser pair with pre-mutation backups and compile-time clinic registries.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Deployed with 196 passing automated tests and zero regressions, enabling safe, instantaneous chart merges across any configured clinic from one unified interface.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>TypeScript</li><li>Builder/Reverser</li><li>196 Unit Tests</li><li>Zero Regressions</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="ai" data-featured="true">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">HIPAA / BAA AI Architecture</p>
+      <span class="solution-card__metric solution-card__metric--blue">Zero PHI Egress</span>
+    </div>
+    <h3>Enable AI-assisted clinical database forensics without exposing PHI.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Repetitive clinical data investigations (duplicate charts, ID collisions, population anomalies) were ideal for AI, but HIPAA rules bar raw patient data from commercial AI stacks.</p>
+      <p><strong>Solution:</strong> Built a guarded local query proxy and BAA-governed read-only investigator that validates schema paths against injection, routes raw results to an isolated HIPAA de-identification layer, and returns only scrubbed summaries.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Shifted effort from manual SQL querying to strategic investigation briefs—accelerating root-cause analysis inside an auditable, zero-leak boundary.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>HIPAA / BAA</li><li>PHI De-ID Proxy</li><li>Read-Only Guardrails</li><li>Autonomous Forensics</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="ai" data-featured="true">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">AI Platform Standardization</p>
+      <span class="solution-card__metric solution-card__metric--blue">Write Once &middot; Fleet-Wide</span>
+    </div>
+    <h3>Eliminate duplicated AI integrations with a unified MCP tool layer.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Connecting every AI agent separately to hybrid search, enterprise trackers, and clinical query gateways caused redundant engineering and vendor lock-in.</p>
+      <p><strong>Solution:</strong> Standardized internal capabilities on a Model Context Protocol (MCP) ecosystem so localized and cloud agents consume shared enterprise tools through one governed interface.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Removed model-vendor lock-in and accelerated capability rollouts—any newly built internal tool immediately empowers the entire agent fleet.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>MCP Ecosystem</li><li>Model-Agnostic</li><li>Governed Tooling</li><li>Enterprise Scale</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="ops" data-featured="true">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">Compliance Automation</p>
+      <span class="solution-card__metric">100% Consistency &middot; 17 Sites</span>
+    </div>
+    <h3>Turn multi-site CAB filings into a single governed conversational command.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Manual Change Advisory Board (CAB) requests and enterprise task filings across 17 clinic sites caused template drift, missing fields, and administrative drag.</p>
+      <p><strong>Solution:</strong> Built a library of approved agent skills backed by role-scoped API integrations that interactively verify dynamic deployment windows and file structured CAB payloads automatically.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Achieved 100% compliance documentation consistency across 17 sites, turning repetitive multi-page change requests into a one-sentence workflow.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>CAB Governance</li><li>Agent Skills</li><li>RBAC API</li><li>Change Management</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="clinical" data-featured="false">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">Clinical Workflow Automation</p>
+      <span class="solution-card__metric">Hand-Typed &rarr; Auto-Filled</span>
+    </div>
+    <h3>Automate clinic requisitions with an EMR Bookmark Mapping engine.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Clinic staff filled out lab requisitions and forms by hand because no reliable map existed showing which EMR Word bookmarks auto-populated versus required free text.</p>
+      <p><strong>Solution:</strong> Built a repeatable EMR Bookmark Master Key classifying every field (Pull-In, Free Text, site-dependent) and a Python/XML injector to embed validated bookmarks into Word templates.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Eliminated repetitive manual typing on high-volume clinical forms while preventing teams from over-promising unsupported vendor fields to clinics.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>Python / XML</li><li>EMR Bookmarks</li><li>Clinician Empathy</li><li>Form Automation</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="clinical" data-featured="false">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">EMR Forensics &amp; Ops Safety</p>
+      <span class="solution-card__metric">Days &rarr; Checklist Diagnostics</span>
+    </div>
+    <h3>Replace risky ad-hoc SQL with a Forensics Playbook &amp; Guarded Ops Console.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Vague EMR failures (vanishing charts, blank schedules, silent key collisions) and bulk updates across 19 clinic databases forced slow, high-risk manual SQL.</p>
+      <p><strong>Solution:</strong> Authored a disciplined read-only forensics corpus with isolated transaction previews and built a clinical operations console that re-validates live DB state before executing changes.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Compressed multi-day troubleshooting into checklist diagnostics, cut hours of bulk database ops to minutes, and armed vendor escalations with conclusive evidence.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>Data Forensics</li><li>Pre-Flight Validation</li><li>19 Clinic DBs</li><li>Reversible Fixes</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="ai" data-featured="false">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">AI FinOps &amp; Cost Governance</p>
+      <span class="solution-card__metric solution-card__metric--blue">28K+ Records &middot; 26 Models</span>
+    </div>
+    <h3>Bring single-pane cost observability to multi-provider AI usage.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Adopting multiple AI providers, APIs, and coding agents scattered usage logs across 29 distinct databases, making it difficult to audit model mix and recurring spend.</p>
+      <p><strong>Solution:</strong> Built a unified FinOps usage and cost dashboard importing telemetry from local coding agents and APIs with time-window filtering, renewal tracking, and reporting graphs.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Recovered ~28,000 usage records across 26 models into 1,575 auditable aggregates, providing clear cost governance to optimize model selection and budgets.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>AI FinOps</li><li>Cost Auditing</li><li>26 Models</li><li>Usage Analytics</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="ai" data-featured="false">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">Agent Platform Reliability</p>
+      <span class="solution-card__metric solution-card__metric--blue">Supervised &middot; Self-Healing</span>
+    </div>
+    <h3>Run supervised specialist AI agents with production-grade reliability.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Supporting clinical platforms across 19 clinics creates continuous triage and build demand, while unattended background agents can crash silently or stall mid-workflow.</p>
+      <p><strong>Solution:</strong> Architected a supervised multi-agent operations layer with domain-scoped specialists, mandatory human approval gates, backoff-throttled restarts, health checks, and shared memory.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Expanded engineering execution capacity with zero-touch crash recovery, predictable approval checkpoints, and lessons written durably back to an indexed knowledge base.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>Multi-Agent Ops</li><li>Human-in-the-Loop</li><li>Process Supervision</li><li>Health Checks</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="ops" data-featured="false">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">Knowledge Enablement</p>
+      <span class="solution-card__metric">30 min &rarr; Zero Touch</span>
+    </div>
+    <h3>Automate EMR vendor documentation into an indexed Knowledge Base.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Incoming EMR vendor updates, configuration guides, and troubleshooting docs took 20–30 minutes each to manually summarize, tag, and cross-reference.</p>
+      <p><strong>Solution:</strong> Built a watched-folder ingestion pipeline where a local agent parses new vendor documents, writes structured KB articles, attaches originals, and updates the hybrid search index.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Cut documentation processing from 30 minutes per file to zero manual authoring, keeping a 750+ document institutional knowledge base continuously current.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>Zero-Touch KB</li><li>Hybrid Search</li><li>750+ Artifacts</li><li>Doc Pipeline</li></ul>
+  </article>
+
+  <article class="card solution-card" data-track="ops" data-featured="false">
+    <div class="solution-card__top">
+      <p class="solution-card__cat">Program Visibility</p>
+      <span class="solution-card__metric">4 Boards &rarr; 1 View</span>
+    </div>
+    <h3>Unify multi-clinic rollout tracking with zero data migration.</h3>
+    <div class="solution-card__body">
+      <p><strong>Problem:</strong> Clinic go-lives, server deployments, and testing issues were fragmented across four isolated tracking boards with no executive rollup.</p>
+      <p><strong>Solution:</strong> Engineered a zero-dependency Python operations dashboard reading the existing shared data files directly to auto-compute completion percentages and status indicators.</p>
+      <p class="solution-card__impact"><strong>Impact:</strong> Consolidated four operational tracking surfaces into one cohesive leadership view and retired legacy boards cleanly with zero data loss or manual re-entry.</p>
+    </div>
+    <ul class="chips" aria-label="Capabilities demonstrated"><li>Python</li><li>Zero Dependencies</li><li>Executive Rollups</li><li>Rollout Ops</li></ul>
+  </article>
+
+</div>
+
+<div class="solutions-footer" id="solutions-footer">
+  <p>Showing 6 flagship highlights for fast executive review. Want deeper clinical and AI engineering examples?</p>
+  <button type="button" class="btn btn--ghost" id="solutions-show-all">
+    View all 12 workplace solutions
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </button>
+</div>
+
+</div></section>
 
 <section class="section section--alt" id="about"><div class="wrap"><div class="section__head"><p class="eyebrow">04 / The person behind the work</p><h2 class="section__title">Clinical experience shapes what I build.</h2><p class="section__sub"></p></div><div class="about-showcase"><img src="assets/img/headshot-approachable.jpg" alt="Duke Morgan" width="1024" height="1024" loading="lazy"><div><p>I started in emergency nursing, where a difficult workflow has immediate consequences for the person trying to use it. That experience still shapes the questions I ask: What is someone trying to do? Where does the system get in the way? How will we know the change worked?</p><p>Today, I direct clinical systems at Inception Fertility and continue to build software and AI tools myself. I bring the clinical context, implementation experience, and technical depth needed to take a problem from investigation through delivery.</p><p>My interests extend into applied AI and automation wherever people need help navigating complex systems and repetitive work.</p></div></div>
 
@@ -513,7 +699,7 @@
   </div>
   <div class="career-step career-step--current">
     <span class="career-step__when"><span class="career-step__dot" aria-hidden="true"></span>2017 – Present &bull; Executive &amp; AI Architecture</span>
-    <span class="career-step__role">Director of Clinical Systems &amp; Applied AI</span>
+    <span class="career-step__role">Director of Clinical Systems</span>
     <span class="career-step__org">Multi-State Fertility Care Network</span>
     <span class="career-step__desc">Direct multi-EMR strategy, $MM vendor portfolio, BAA-governed Azure AI Foundry routing, and agentic tools.</span>
   </div>
@@ -922,7 +1108,7 @@
         <span>AI Architect</span>
         <span>Clinical AI Leadership</span>
         <span>AI Enablement &amp; Transformation</span>
-        <span>Director / VP of Clinical Systems</span>
+        <span>Director of Clinical Systems</span>
       </div>
       <div class="contact__actions">
         <a class="btn btn--primary btn--lg" href="resume/Duke-Morgan-Resume.pdf" target="_blank">

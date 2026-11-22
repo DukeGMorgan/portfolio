@@ -365,6 +365,66 @@
     });
   });
 
+  /* ---------- Section 03: Filterable Problem & Solution Playbook ---------- */
+  var solutionFilters = document.querySelectorAll('.solution-filter[data-solution-filter]');
+  var solutionCards = document.querySelectorAll('.solution-card[data-track]');
+  var solutionsMeta = document.getElementById('solutions-meta');
+  var solutionsFooter = document.getElementById('solutions-footer');
+  var solutionsShowAll = document.getElementById('solutions-show-all');
+
+  if (solutionFilters.length && solutionCards.length) {
+    var filterLabels = {
+      featured: 'Showing 6 featured highlights',
+      all: 'Showing all 12 workplace solutions',
+      clinical: 'Showing 5 Clinical Systems & EMR solutions',
+      ai: 'Showing 4 Enterprise AI & Governance solutions',
+      ops: 'Showing 3 Ops & Enablement solutions'
+    };
+
+    function applySolutionFilter(filter) {
+      var visibleCount = 0;
+
+      Array.prototype.forEach.call(solutionFilters, function (btn) {
+        var active = btn.getAttribute('data-solution-filter') === filter;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-selected', String(active));
+      });
+
+      Array.prototype.forEach.call(solutionCards, function (card) {
+        var track = card.getAttribute('data-track');
+        var featured = card.getAttribute('data-featured') === 'true';
+        var show =
+          filter === 'all' ||
+          (filter === 'featured' && featured) ||
+          track === filter;
+        card.classList.toggle('is-hidden', !show);
+        if (show) visibleCount += 1;
+      });
+
+      if (solutionsMeta) {
+        solutionsMeta.textContent = filterLabels[filter] || ('Showing ' + visibleCount + ' solutions');
+      }
+      if (solutionsFooter) {
+        solutionsFooter.classList.toggle('is-visible', filter === 'featured');
+      }
+    }
+
+    Array.prototype.forEach.call(solutionFilters, function (btn) {
+      btn.addEventListener('click', function () {
+        applySolutionFilter(btn.getAttribute('data-solution-filter'));
+      });
+    });
+
+    if (solutionsShowAll) {
+      solutionsShowAll.addEventListener('click', function () {
+        applySolutionFilter('all');
+      });
+    }
+
+    // Default to 6 featured highlights when JS is active (no-JS displays all 12)
+    applySolutionFilter('featured');
+  }
+
   /* ---------- One-click Copy Email convenience ---------- */
   var emailLink = document.getElementById('email-link');
   var emailText = document.getElementById('email-text');
